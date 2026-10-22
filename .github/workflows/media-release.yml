@@ -1,0 +1,27 @@
+name: Publish media assets
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Publish fly-by videos
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: media-v1
+          name: Media assets
+          body: Ten-second day and night fly-by videos used in the README.
+          files: |
+            media/videos/day-flyby.mp4
+            media/videos/night-flyby.mp4
+          fail_on_unmatched_files: true
