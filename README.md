@@ -25,7 +25,7 @@ Captured in-game across the full day-night cycle.
 
 ## Fly-by Videos
 
-Two ten-second, HUD-free fly-bys captured from the game canvas. Use the players below; the clips loop.
+Two ten-second, HUD-free fly-bys captured from the game canvas. Use the players below.
 
 ### Day fly-by
 
