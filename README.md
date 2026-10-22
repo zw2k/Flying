@@ -25,13 +25,21 @@ Captured in-game across the full day-night cycle.
 
 ## Fly-by Videos
 
-Two ten-second, HUD-free fly-bys captured from the game canvas. Click a poster to open the MP4.
+Two ten-second, HUD-free fly-bys captured from the game canvas. Use the players below; the clips loop.
 
-| Day fly-by | Night fly-by |
-| --- | --- |
-| <video width="630" height="300" src="https://github.com/user-attachments/assets/ca5de8df-dd95-46f4-9521-d86a0ba6f53d.mp4"></video> | <video width="630" height="300" src="https://github.com/user-attachments/assets/8365fc03-22da-4469-b479-40c40d8dbafd.mp4"></video> |
+### Day fly-by
 
-All media lives in `media/`. The clips are 10 seconds, 30 fps, H.264 MP4.
+<video controls muted loop playsinline preload="metadata" src="https://github.com/user-attachments/assets/ca5de8df-dd95-46f4-9521-d86a0ba6f53d.mp4"></video>
+
+[Download daytime MP4](media/videos/day-flyby.mp4)
+
+### Night fly-by
+
+<video controls muted loop playsinline preload="metadata" src="https://github.com/user-attachments/assets/8365fc03-22da-4469-b479-40c40d8dbafd.mp4"></video>
+
+[Download nighttime MP4](media/videos/night-flyby.mp4)
+
+All media lives in `media/`. The source clips are 10 seconds, 30 fps, H.264 MP4.
 
 ## Controls
 
