@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="theme-color" content="#2b2142" />
+    <meta
+      name="description"
+      content="A hand-painted flight through floating islands beneath a shifting sky."
+    />
+    <title>Where the Sky Remembers</title>
+  </head>
+  <body>
+    <div id="app">
+      <canvas id="scene" aria-label="A hand-painted sky filled with floating islands"></canvas>
+
+      <div id="grain" aria-hidden="true"></div>
+
+      <div id="ui">
+        <div class="hud-scrim hud-scrim-top" aria-hidden="true"></div>
+        <div class="hud-scrim hud-scrim-bottom" aria-hidden="true"></div>
+        <header class="topbar">
+          <div class="brand">
+            <svg class="brand-mark" viewBox="0 0 48 32" aria-hidden="true">
+              <path d="M2 21.5 45 3 29 29l-7.5-8.5L12 26l2.8-9.1Z" />
+              <path d="M14.8 16.9 45 3 21.5 20.5" />
+            </svg>
+            <div class="brand-copy">
+              <span class="brand-title">Where the Sky Remembers</span>
+              <span class="brand-sub">an endless flight</span>
+            </div>
+          </div>
+
+          <div class="hud-stats">
+            <div class="stat score-stat">
+              <span class="stat-label">Score</span>
+              <span class="stat-value" id="score">0</span>
+            </div>
+            <div class="hud-rule"></div>
+            <div class="stat">
+              <span class="stat-label">Rings</span>
+              <span class="stat-value" id="rings">0</span>
+            </div>
+            <div class="stat combo-stat" id="combo-stat">
+              <span class="stat-label">Combo</span>
+              <span class="stat-value" id="combo">×1</span>
+            </div>
+            <button class="icon-button auto-button" id="autofly" type="button" aria-label="Toggle auto-flight" aria-pressed="false" title="Auto-flight (F) · WASD camera in auto · idle after 10s · [ and ] to adjust">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M3.6 12.7 20.4 4.2l-4.1 15.9-4.7-6.2-3.6 2.8.4-4.2z" />
+              </svg>
+            </button>
+            <button class="icon-button" id="mute" type="button" aria-label="Mute sound" aria-pressed="false" aria-keyshortcuts="M" title="Mute sound (M)">
+              <svg class="sound-on" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M4 9v6h4l5 4V5L8 9H4Z" />
+                <path d="M16 8.5c1.2 1 1.8 2.2 1.8 3.5S17.2 14.5 16 15.5" />
+                <path d="M18.8 6c1.8 1.6 2.7 3.6 2.7 6s-.9 4.4-2.7 6" />
+              </svg>
+              <svg class="sound-off" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M4 9v6h4l5 4V5L8 9H4Z" />
+                <path d="m16.5 9.5 5 5M21.5 9.5l-5 5" />
+              </svg>
+            </button>
+            <button class="icon-button fullscreen-button" id="fullscreen" type="button" aria-label="Enter full screen" aria-pressed="false" title="Enter full screen">
+              <svg class="fullscreen-enter" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5" />
+              </svg>
+              <svg class="fullscreen-exit" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M9 4v5H4M20 9h-5V4M15 20v-5h5M4 15h5v5" />
+              </svg>
+            </button>
+            <button class="icon-button pause-button" id="pause" type="button" aria-label="Pause" title="Pause">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M8 5v14M16 5v14" />
+              </svg>
+            </button>
+          </div>
+        </header>
+
+        <div id="target" aria-hidden="true">
+          <svg viewBox="0 0 76 76">
+            <circle cx="38" cy="38" r="27" />
+            <path d="M38 4v9M38 63v9M4 38h9M63 38h9" />
+          </svg>
+          <span id="target-distance">—</span>
+        </div>
+
+        <div id="objective">
+          <span class="objective-line"></span>
+          <span id="objective-text">Follow the golden rings</span>
+          <span class="objective-line"></span>
+        </div>
+
+        <div id="toast" aria-live="polite">
+          <strong id="toast-title"></strong>
+          <span id="toast-points"></span>
+        </div>
+
+        <aside id="hotkeys" class="hotkeys" aria-label="Flight controls" aria-hidden="true">
+          <p class="hotkeys-eyebrow">Flight controls</p>
+          <dl class="hotkey-list">
+            <div class="hotkey-row">
+              <dt><kbd>WASD</kbd><span class="key-alt">/ arrows</span></dt>
+              <dd>Steer</dd>
+            </div>
+            <div class="hotkey-row">
+              <dt><kbd>Shift</kbd></dt>
+              <dd>Hold to soar</dd>
+            </div>
+            <div class="hotkey-row">
+              <dt><kbd>1</kbd><kbd>2</kbd><kbd>3</kbd></dt>
+              <dd>Paper plane</dd>
+            </div>
+            <div class="hotkey-row">
+              <dt><kbd>F</kbd></dt>
+              <dd>Auto-flight</dd>
+            </div>
+            <div class="hotkey-row">
+              <dt><kbd>[</kbd><kbd>]</kbd></dt>
+              <dd>Auto wait time</dd>
+            </div>
+            <div class="hotkey-row">
+              <dt><kbd>M</kbd></dt>
+              <dd>Mute / unmute</dd>
+            </div>
+            <div class="hotkey-row">
+              <dt><kbd>Esc</kbd><kbd>P</kbd></dt>
+              <dd>Pause</dd>
+            </div>
+          </dl>
+
+          <p class="hotkeys-eyebrow hotkeys-subhead">Auto camera</p>
+          <dl class="hotkey-list">
+            <div class="hotkey-row">
+              <dt><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd></dt>
+              <dd>High / left / low / right</dd>
+            </div>
+            <div class="hotkey-row">
+              <dt><span class="key-alt">same key</span></dt>
+              <dd>Close-up / long shot</dd>
+            </div>
+            <div class="hotkey-row">
+              <dt><span class="key-alt">1 min idle</span></dt>
+              <dd>Pan &amp; tilt follow</dd>
+            </div>
+          </dl>
+
+          <p class="hotkeys-foot"><kbd>H</kbd> shows this for 5 seconds</p>
+        </aside>
+
+        <footer class="flight-hud">
+          <div class="altimeter">
+            <span class="hud-caption">Altitude</span>
+            <span class="hud-number" id="altitude">42</span>
+            <span class="hud-unit">m</span>
+          </div>
+          <div class="control-hint" id="control-hint">
+            <span class="cursor-mark">
+              <svg viewBox="0 0 44 44" aria-hidden="true">
+                <path d="M22 2v9M22 33v9M2 22h9M33 22h9" />
+                <circle cx="22" cy="22" r="8" />
+              </svg>
+            </span>
+            <span id="hint-text"><b>Move</b> to steer &nbsp;·&nbsp; <b>Hold Shift</b> to soar &nbsp;·&nbsp; <b>1 2 3</b> plane &nbsp;·&nbsp; <b>F</b> auto &nbsp;·&nbsp; <b>H</b> help</span>
+          </div>
+          <div class="speedometer">
+            <span class="hud-caption">Airspeed</span>
+            <div class="speed-track"><span id="speed-fill"></span></div>
+            <span class="hud-number" id="speed">34</span>
+          </div>
+        </footer>
+
+        <div id="wind-lines" aria-hidden="true"></div>
+      </div>
+
+      <section id="intro" aria-label="Game introduction">
+        <div class="intro-vignette"></div>
+        <div class="cinema-bar cinema-top"></div>
+        <div class="cinema-bar cinema-bottom"></div>
+
+        <button class="icon-button fullscreen-button intro-fullscreen" id="fullscreen-intro" type="button" aria-label="Enter full screen" aria-pressed="false" title="Enter full screen">
+          <svg class="fullscreen-enter" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5" />
+          </svg>
+          <svg class="fullscreen-exit" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M9 4v5H4M20 9h-5V4M15 20v-5h5M4 15h5v5" />
+          </svg>
+        </button>
+
+        <div class="intro-copy">
+          <p class="eyebrow"><span></span> An endless flight <span></span></p>
+          <h1 class="intro-title">
+            <span class="title-small">Where the</span>
+            <span class="title-big">Sky Remembers</span>
+          </h1>
+          <p class="intro-lede">
+            Beyond the last warm light, the islands drift.<br />
+            Fold a wish into paper, and follow the golden rings.
+          </p>
+
+          <button id="start" class="start-button" type="button">
+            <span class="start-line"></span>
+            <span class="start-label">Take Flight</span>
+            <span class="start-keys">click <i>or</i> space</span>
+          </button>
+
+          <p class="intro-choice">Press <b>1</b>, <b>2</b>, or <b>3</b> to choose a paper plane</p>
+          <p class="intro-foot">A small game about letting go</p>
+        </div>
+
+        <div class="intro-corner intro-corner-a" aria-hidden="true"></div>
+        <div class="intro-corner intro-corner-b" aria-hidden="true"></div>
+      </section>
+
+      <section id="pause-menu" aria-label="Paused">
+        <div class="pause-card">
+          <p class="eyebrow"><span></span> A breath, held <span></span></p>
+          <h2>The sky waits.</h2>
+          <button id="resume" class="start-button compact" type="button">
+            <span class="start-line"></span>
+            <span class="start-label">Keep Flying</span>
+          </button>
+          <p class="pause-hint">Press <b>Esc</b> or <b>P</b> to continue</p>
+        </div>
+      </section>
+
+      <div id="loader" aria-label="Loading">
+        <div class="loader-inner">
+          <svg class="loader-plane" viewBox="0 0 48 32" aria-hidden="true">
+            <path d="M2 21.5 45 3 29 29l-7.5-8.5L12 26l2.8-9.1Z" />
+            <path d="M14.8 16.9 45 3 21.5 20.5" />
+          </svg>
+          <span>Folding wings</span>
+          <i></i>
+        </div>
+      </div>
+
+      <div id="fade" aria-hidden="true"></div>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
