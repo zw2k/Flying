@@ -31,15 +31,17 @@ Two ten-second, HUD-free fly-bys captured from the game canvas. Use the players 
 
 <video controls muted loop playsinline preload="metadata" src="https://github.com/user-attachments/assets/ca5de8df-dd95-46f4-9521-d86a0ba6f53d.mp4"></video>
 
-[Download daytime MP4](media/videos/day-flyby.mp4)
+[Download daytime MP4](media/videos/day-flyby.mp4) · [WebM](media/videos/day-flyby.webm)
 
 ### Night fly-by
 
 <video controls muted loop playsinline preload="metadata" src="https://github.com/user-attachments/assets/8365fc03-22da-4469-b479-40c40d8dbafd.mp4"></video>
 
-[Download nighttime MP4](media/videos/night-flyby.mp4)
+[Download nighttime MP4](media/videos/night-flyby.mp4) · [WebM](media/videos/night-flyby.webm)
 
-All media lives in `media/`. The source clips are 10 seconds, 30 fps, H.264 MP4.
+All media lives in `media/`. The source clips are 10 seconds, 30 fps, in H.264 MP4 and VP9 WebM.
+
+> Some Firefox builds on Linux cannot decode H.264. If a player reports “No video with supported format and MIME type found,” use the WebM download.
 
 ## Controls
 
@@ -115,7 +117,9 @@ This repository includes `.github/workflows/deploy.yml`, which builds and deploy
 │   │   └── 04-night.jpg
 │   └── videos/
 │       ├── day-flyby.mp4
-│       └── night-flyby.mp4
+│       ├── day-flyby.webm
+│       ├── night-flyby.mp4
+│       └── night-flyby.webm
 ├── src/
 │   ├── audio.js
 │   ├── main.js
